@@ -4,6 +4,7 @@ import dashboardService from '../services/dashboard.service.js';
 import StatCard from '../components/dashboard/StatCard.jsx';
 import { SkeletonStatCards } from '../components/common/Skeleton.jsx';
 import { LoadingSpinner } from '../components/common/LoadingSpinner.jsx';
+import EmptyState from '../components/common/EmptyState.jsx';
 import { useNotification } from '../hooks/useNotification.js';
 
 const Dashboard = () => {
@@ -39,6 +40,8 @@ const Dashboard = () => {
   useEffect(() => {
     fetchStats();
   }, []);
+
+  const isInventoryEmpty = stats && stats.totalProducts === 0 && stats.totalCategories === 0;
 
   return (
     <div className="dashboard-page">
@@ -126,6 +129,21 @@ const Dashboard = () => {
             icon="🚫"
             subtitle="Quantity = 0 units"
             colorScheme="red"
+          />
+        </div>
+      )}
+
+      {/* Getting Started Welcome Card if inventory is completely empty */}
+      {!loading && isInventoryEmpty && (
+        <div className="card empty-dashboard-guide mb-4">
+          <EmptyState
+            icon="🚀"
+            title="Welcome to your Inventory Management System!"
+            message="Your database is currently empty. Get started by organizing your categories or adding products to track stock levels."
+            actionLabel="+ Create First Category"
+            onAction={() => (window.location.href = '/categories')}
+            secondaryActionLabel="+ Add First Product"
+            onSecondaryAction={() => (window.location.href = '/products/add')}
           />
         </div>
       )}

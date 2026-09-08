@@ -5,6 +5,7 @@ import inventoryService from '../services/inventory.service.js';
 import StatusBadge from '../components/common/StatusBadge.jsx';
 import StockModal from '../components/inventory/StockModal.jsx';
 import Modal from '../components/common/Modal.jsx';
+import EmptyState from '../components/common/EmptyState.jsx';
 import { SkeletonProductDetails } from '../components/common/Skeleton.jsx';
 import { LoadingSpinner } from '../components/common/LoadingSpinner.jsx';
 import { useNotification } from '../hooks/useNotification.js';
@@ -190,7 +191,14 @@ const ProductDetails = () => {
             </div>
             <div className="card-body">
               {history.length === 0 ? (
-                <p className="text-muted text-center py-3">No stock changes recorded yet.</p>
+                <EmptyState
+                  variant="compact"
+                  icon="⏱️"
+                  title="No Stock History Recorded"
+                  message="No stock changes have been made for this item yet."
+                  actionLabel="+ Adjust Stock"
+                  onAction={() => setShowStockModal(true)}
+                />
               ) : (
                 <div className="history-timeline">
                   {history.slice(0, 5).map((t) => (
