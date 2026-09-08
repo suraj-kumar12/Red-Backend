@@ -1,10 +1,11 @@
 import express from 'express';
-import { getDashboardStats } from '../controllers/dashboard.controller.js';
+import { getDashboard } from '../controllers/dashboard.controller.js';
 import { protect } from '../middleware/auth.middleware.js';
 
 const router = express.Router();
 
-// Dashboard routes (Enforce authentication on dashboard metrics)
-router.get('/stats', protect, getDashboardStats);
+// Dashboard routes (Protected: requires valid JWT)
+router.get('/', protect, getDashboard);
+router.get('/stats', protect, getDashboard);
 
 export default router;
